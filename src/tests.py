@@ -63,6 +63,21 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(medium != large)
         self.assertTrue(large != medium)
 
+        with self.assertRaises(TypeError):
+            small < 1
+
+        with self.assertRaises(TypeError):
+            small <= 1
+
+        with self.assertRaises(TypeError):
+            small > 1
+
+        with self.assertRaises(TypeError):
+            small >= 1
+
+        self.assertFalse(small == 1)
+        self.assertTrue(small != 1)
+
     def test_repr(self):
         f = Foo(1, 'irrelevant')
         self.assertEqual(repr(f), "Foo(x=1, y='irrelevant')")
