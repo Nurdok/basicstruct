@@ -36,7 +36,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(f.y, 2)
 
     def test_comparisons(self):
-        small = Foo(1, 'irreleant')
+        small = Foo(1, 'irrelevant')
         medium = Foo(2, 5)
         another_medium = Foo(2, 5)
         large = Foo(2, 15)
@@ -93,6 +93,17 @@ class MyTestCase(unittest.TestCase):
     def test_pickle(self):
         f = Foo(1, 'irrelevant')
         self.assertEqual(f, pickle.loads(pickle.dumps(f)))
+
+    def test_hash(self):
+        small = Foo(1, 'irrelevant')
+        medium = Foo(2, 5)
+        another_medium = Foo(2, 5)
+        large = Foo(2, 15)
+
+        self.assertNotEqual(hash(small), hash(medium))
+        self.assertNotEqual(hash(medium), hash(large))
+        self.assertEqual(hash(medium), hash(another_medium))
+
 
 
 if __name__ == '__main__':
