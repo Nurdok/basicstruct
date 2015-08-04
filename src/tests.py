@@ -1,3 +1,4 @@
+import six
 import pickle
 import unittest
 
@@ -63,20 +64,27 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(medium != large)
         self.assertTrue(large != medium)
 
-        with self.assertRaises(TypeError):
-            small < 1
+        # need to call the magic method directly, otherwise the reverse
+        # method is called, which is implemented in Python 2.x
+        self.assertEqual(small.__gt__(1), NotImplemented)
+        self.assertEqual(small.__ge__(1), NotImplemented)
+        self.assertEqual(small.__lt__(1), NotImplemented)
+        self.assertEqual(small.__le__(1), NotImplemented)
+        self.assertEqual(small.__eq__(1), NotImplemented)
+        self.assertEqual(small.__ne__(1), NotImplemented)
 
-        with self.assertRaises(TypeError):
-            small <= 1
+        if six.PY3:
+            with self.assertRaises(TypeError):
+                small < 1
 
-        with self.assertRaises(TypeError):
-            small > 1
+            with self.assertRaises(TypeError):
+                small <= 1
 
-        with self.assertRaises(TypeError):
-            small >= 1
+            with self.assertRaises(TypeError):
+                small > 1
 
-        self.assertFalse(small == 1)
-        self.assertTrue(small != 1)
+            with self.assertRaises(TypeError):
+                small >= 1
 
     def test_repr(self):
         f = Foo(1, 'irrelevant')
