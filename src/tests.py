@@ -105,6 +105,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(hash(medium), hash(another_medium))
 
 
-
 if __name__ == '__main__':
     unittest.main()
