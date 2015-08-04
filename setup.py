@@ -29,4 +29,5 @@ setup(
     package_dir={'': 'src'},
     py_modules=['basicstruct'],
     install_requires=['six'],
+    test_suite='nose.collector',
 )
