@@ -25,7 +25,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(f.y, 'blah')
 
     def test_comparisons(self):
-        small = Foo(1, 'irrelevant')
+        small = Foo(1, 'irreleant')
         medium = Foo(2, 5)
         another_medium = Foo(2, 5)
         large = Foo(2, 15)

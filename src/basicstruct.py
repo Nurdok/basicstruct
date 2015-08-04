@@ -1,3 +1,6 @@
+# Copyright (c) 2015 Amir Rachum.
+# This program is distributed under the MIT license.
+
 """This is a placeholder."""
 
 import six

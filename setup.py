@@ -28,5 +28,5 @@ setup(
     keywords='struct, bean, basic struct, record, slots',
     package_dir={'': 'src'},
     py_modules=['basicstruct'],
-    install_requires=['six']
+    install_requires=['six'],
 )
