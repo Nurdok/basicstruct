@@ -7,7 +7,7 @@ import six
 from six.moves import zip
 from itertools import chain
 
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 
 
 class BasicStruct(object):
