@@ -13,7 +13,7 @@ setup(
     name='basicstruct',
     version=version,
     description="A simple struct-like object for Python",
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     license='MIT',
     author='Amir Rachum',
     author_email='amir@rachum.com',
