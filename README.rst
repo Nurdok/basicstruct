@@ -1,7 +1,6 @@
 basicstruct
 ===========
 
-
 .. image:: https://travis-ci.org/Nurdok/basicstruct.svg
     :target: https://travis-ci.org/Nurdok/basicstruct
 
@@ -16,6 +15,8 @@ Compatible with Python 2.6+, 3.x, pypy and pypy3.
 Installation
 ^^^^^^^^^^^^
 
+.. code-block:: python
+
     pip install basicstruct
     
 Usage
@@ -23,6 +24,8 @@ Usage
 
  To create your own struct, inherit from `BasicStruct` and define the field with the `__slots__` class member.
  `BasicStruct` are efficient objects that are automatically comparable, hashable, picklable, printable and reprable.
+
+.. code-block:: python
 
     from basicstruct import BasicStruct
     
