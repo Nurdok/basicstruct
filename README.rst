@@ -4,10 +4,12 @@ basicstruct
 .. image:: https://travis-ci.org/Nurdok/basicstruct.svg
     :target: https://travis-ci.org/Nurdok/basicstruct
 
-
 .. image:: https://coveralls.io/repos/Nurdok/basicstruct/badge.svg?branch=master&service=github
   :target: https://coveralls.io/github/Nurdok/basicstruct?branch=master
 
+.. image:: https://badge.fury.io/py/basicstruct.svg
+    :target: http://badge.fury.io/py/basicstruct
+    
 
 A simple struct-like object for Python.  
 Compatible with Python 2.6+, 3.x, pypy and pypy3.
