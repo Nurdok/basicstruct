@@ -6,7 +6,7 @@
 import six
 from copy import deepcopy
 from six.moves import zip
-from itertools import chain
+from itertools import chain, izip
 
 __version__ = '1.0.3'
 
@@ -28,7 +28,7 @@ class BasicStruct(object):
     def to_dict(self, copy=False):
         """Convert the struct to a dictionary.
 
-        If `copy == True`, returns a `copy.deepcopy` of the values.
+        If `copy == True`, returns a deep copy of the values.
 
         """
         new_dict = {}
@@ -83,8 +83,7 @@ class BasicStruct(object):
         This allows using `dict(my_struct)`.
 
         """
-        for key in self.__slots__:
-            yield key, getattr(self, key)
+        return izip(self.__slots__, self._to_tuple())
 
     def _to_tuple(self):
         return tuple(getattr(self, key) for key in self.__slots__)
