@@ -4,6 +4,7 @@
 """This is a placeholder."""
 
 import six
+from copy import deepcopy
 from six.moves import zip
 from itertools import chain
 
@@ -23,6 +24,20 @@ class BasicStruct(object):
         for key in self.__slots__:
             if not hasattr(self, key):
                 setattr(self, key, None)
+
+    def to_dict(self, copy=False):
+        """Convert the struct to a dictionary.
+
+        If `copy == True`, returns a `copy.deepcopy` of the values.
+
+        """
+        new_dict = {}
+        for attr, value in self:
+            if copy:
+                value = deepcopy(value)
+            new_dict[attr] = value
+
+        return new_dict
 
     def __repr__(self):
         attrs_str = ', '.join('{0}={1!r}'.format(key, getattr(self, key))
@@ -61,6 +76,15 @@ class BasicStruct(object):
 
     def __hash__(self):
         return hash(self._to_tuple())
+
+    def __iter__(self):
+        """Yield pairs of (attrubute_name, value).
+
+        This allows using `dict(my_struct)`.
+
+        """
+        for key in self.__slots__:
+            yield key, getattr(self, key)
 
     def _to_tuple(self):
         return tuple(getattr(self, key) for key in self.__slots__)
