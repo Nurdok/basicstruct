@@ -6,7 +6,7 @@
 import six
 from copy import deepcopy
 from six.moves import zip
-from itertools import chain, izip
+from itertools import chain
 
 __version__ = '1.0.3'
 
@@ -83,7 +83,7 @@ class BasicStruct(object):
         This allows using `dict(my_struct)`.
 
         """
-        return izip(self.__slots__, self._to_tuple())
+        return zip(self.__slots__, self._to_tuple())
 
     def _to_tuple(self):
         return tuple(getattr(self, key) for key in self.__slots__)
