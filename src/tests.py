@@ -104,6 +104,25 @@ class MyTestCase(unittest.TestCase):
         self.assertNotEqual(hash(medium), hash(large))
         self.assertEqual(hash(medium), hash(another_medium))
 
+    def test_to_dict(self):
+        f = Foo(1, 2)
+        d1 = f.to_dict()
+        d2 = dict(f)
+        expected = {'x': 1, 'y': 2}
+
+        self.assertEqual(d1, expected)
+        self.assertEqual(d2, expected)
+
+    def test_to_dict_copy(self):
+        l = []
+        f = Foo(1, l)
+        d1 = f.to_dict()
+        d2 = f.to_dict(copy=True)
+        l.append(1)
+
+        self.assertEqual(d1, {'x': 1, 'y': [1]})
+        self.assertEqual(d2, {'x': 1, 'y': []})
+
 
 if __name__ == '__main__':
     unittest.main()
