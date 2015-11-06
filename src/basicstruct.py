@@ -1,14 +1,15 @@
 # Copyright (c) 2015 Amir Rachum.
 # This program is distributed under the MIT license.
 
-"""This is a placeholder."""
+"""basicstruct provides BasicStruct, a class for simple struct-like objects."""
+from contextlib import suppress
 
 import six
 from copy import deepcopy
 from six.moves import zip
 from itertools import chain
 
-__version__ = '1.0.3'
+__version__ = '1.0.4-alpha'
 
 
 class BasicStruct(object):
@@ -23,7 +24,12 @@ class BasicStruct(object):
 
         for key in self.__slots__:
             if not hasattr(self, key):
-                setattr(self, key, None)
+                default_value = None
+                try:
+                    default_value = self.__slots__[key]
+                except TypeError:
+                    pass
+                setattr(self, key, default_value)
 
     def to_dict(self, copy=False):
         """Convert the struct to a dictionary.
