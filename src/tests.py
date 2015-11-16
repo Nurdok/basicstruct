@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import six
 import pickle
 import unittest
@@ -9,8 +11,12 @@ class SimpleBasicStruct(BasicStruct):
     __slots__ = ('x', 'y')
 
 
-class BasicStructWithDefaultValuesUnordered(BasicStruct):
+class BasicStructWithUnorderedDefaultValues(BasicStruct):
     __slots__ = {'x': 5, 'y': True}
+
+
+class BasicStructWithOrderedDefaultValues(BasicStruct):
+    __slots__ = OrderedDict((('x', 5), ('y', True)))
 
 
 class BasicStructTest(unittest.TestCase):
@@ -127,21 +133,44 @@ class BasicStructTest(unittest.TestCase):
         self.assertEqual(d1, {'x': 1, 'y': [1]})
         self.assertEqual(d2, {'x': 1, 'y': []})
 
-    def test_default_values(self):
-        bs = BasicStructWithDefaultValues()
+    def test_unordered_default_values(self):
+        bs = BasicStructWithUnorderedDefaultValues()
         self.assertEqual(bs.x, 5)
         self.assertEqual(bs.y, True)
 
-    def test_partial_default_values(self):
-        bs = BasicStructWithDefaultValues(0)
+    def test_unordered_partial_default_values_keyword_args(self):
+        bs = BasicStructWithUnorderedDefaultValues(x=0)
         self.assertEqual(bs.x, 0)
         self.assertEqual(bs.y, True)
 
-    def test_partial_default_values_with_kwargs(self):
-        bs = BasicStructWithDefaultValues(y=False)
+    def test_unordered_default_values_non_keyword_arg(self):
+        with self.assertRaises(ValueError):
+            BasicStructWithUnorderedDefaultValues(0)
+
+        with self.assertRaises(ValueError):
+            BasicStructWithUnorderedDefaultValues(False, x=0)
+
+    def test_ordered_default_values(self):
+        bs = BasicStructWithOrderedDefaultValues()
+        self.assertEqual(bs.x, 5)
+        self.assertEqual(bs.y, True)
+
+    def test_ordered_partial_default_values_keyword_args(self):
+        bs = BasicStructWithOrderedDefaultValues(x=0)
+        self.assertEqual(bs.x, 0)
+        self.assertEqual(bs.y, True)
+
+    def test_ordered_partial_default_values(self):
+        bs = BasicStructWithOrderedDefaultValues(0)
+        self.assertEqual(bs.x, 0)
+        self.assertEqual(bs.y, True)
+
+    def test_ordered_partial_default_values_with_kwargs(self):
+        bs = BasicStructWithOrderedDefaultValues(y=False)
         self.assertEqual(bs.x, 5)
         self.assertEqual(bs.y, False)
 
 
 if __name__ == '__main__':
     unittest.main()
+

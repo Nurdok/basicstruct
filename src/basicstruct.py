@@ -2,12 +2,12 @@
 # This program is distributed under the MIT license.
 
 """basicstruct provides BasicStruct, a class for simple struct-like objects."""
-from contextlib import suppress
 
 import six
 from copy import deepcopy
 from six.moves import zip
 from itertools import chain
+from collections import Mapping
 
 __version__ = '1.0.4-alpha'
 
@@ -18,6 +18,15 @@ class BasicStruct(object):
     __slots__ = ()  # should be extended by deriving classes
 
     def __init__(self, *args, **kwargs):
+        default_values = isinstance(self.__slots__, Mapping)
+        ordered = (not type(self.__slots__) == dict and
+                   not isinstance(self.__slots__, set))
+
+        if args and not ordered:
+            raise ValueError("Can't pass non-keyword arguments to {}, since "
+                             "__slots__ was declared with an unordered "
+                             "iterable.".format(self.__class__.__name__))
+
         arg_pairs = zip(self.__slots__, args)
         for key, value in chain(arg_pairs, six.iteritems(kwargs)):
             setattr(self, key, value)
@@ -25,10 +34,8 @@ class BasicStruct(object):
         for key in self.__slots__:
             if not hasattr(self, key):
                 default_value = None
-                try:
+                if default_values:
                     default_value = self.__slots__[key]
-                except TypeError:
-                    pass
                 setattr(self, key, default_value)
 
     def to_dict(self, copy=False):
