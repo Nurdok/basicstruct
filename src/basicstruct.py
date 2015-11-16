@@ -1,14 +1,16 @@
 # Copyright (c) 2015 Amir Rachum.
 # This program is distributed under the MIT license.
 
-"""This is a placeholder."""
+"""basicstruct provides BasicStruct, a class for simple struct-like objects."""
 
 import six
 from copy import deepcopy
 from six.moves import zip
 from itertools import chain
+from collections import Mapping
 
-__version__ = '1.0.3'
+__version__ = '1.0.4-alpha'
+__all__ = ('BasicStruct',)
 
 
 class BasicStruct(object):
@@ -17,13 +19,25 @@ class BasicStruct(object):
     __slots__ = ()  # should be extended by deriving classes
 
     def __init__(self, *args, **kwargs):
+        default_values = isinstance(self.__slots__, Mapping)
+        ordered = (not type(self.__slots__) == dict and
+                   not isinstance(self.__slots__, set))
+
+        if args and not ordered:
+            raise ValueError("Can't pass non-keyword arguments to {}, since "
+                             "__slots__ was declared with an unordered "
+                             "iterable.".format(self.__class__.__name__))
+
         arg_pairs = zip(self.__slots__, args)
         for key, value in chain(arg_pairs, six.iteritems(kwargs)):
             setattr(self, key, value)
 
         for key in self.__slots__:
             if not hasattr(self, key):
-                setattr(self, key, None)
+                default_value = None
+                if default_values:
+                    default_value = self.__slots__[key]
+                setattr(self, key, default_value)
 
     def to_dict(self, copy=False):
         """Convert the struct to a dictionary.
@@ -78,7 +92,7 @@ class BasicStruct(object):
         return hash(self._to_tuple())
 
     def __iter__(self):
-        """Yield pairs of (attrubute_name, value).
+        """Yield pairs of (attribute_name, value).
 
         This allows using `dict(my_struct)`.
 
@@ -94,4 +108,3 @@ class BasicStruct(object):
     def __setstate__(self, state):
         for key, value in zip(self.__slots__, state):
             setattr(self, key, value)
-

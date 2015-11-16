@@ -29,5 +29,6 @@ setup(
     package_dir={'': 'src'},
     py_modules=['basicstruct'],
     install_requires=['six'],
+    test_require=['nose', 'ordereddict'],
     test_suite='nose.collector',
 )
