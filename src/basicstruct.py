@@ -10,6 +10,7 @@ from itertools import chain
 from collections import Mapping
 
 __version__ = '1.0.4-alpha'
+__all__ = ('BasicStruct',)
 
 
 class BasicStruct(object):
@@ -91,7 +92,7 @@ class BasicStruct(object):
         return hash(self._to_tuple())
 
     def __iter__(self):
-        """Yield pairs of (attrubute_name, value).
+        """Yield pairs of (attribute_name, value).
 
         This allows using `dict(my_struct)`.
 

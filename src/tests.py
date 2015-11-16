@@ -1,8 +1,11 @@
-from collections import OrderedDict
-
 import six
 import pickle
 import unittest
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
 
 from basicstruct import BasicStruct
 
