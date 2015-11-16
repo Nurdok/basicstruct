@@ -108,4 +108,3 @@ class BasicStruct(object):
     def __setstate__(self, state):
         for key, value in zip(self.__slots__, state):
             setattr(self, key, value)
-

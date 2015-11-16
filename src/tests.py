@@ -147,11 +147,12 @@ class BasicStructTest(unittest.TestCase):
         self.assertEqual(bs.y, True)
 
     def test_unordered_default_values_non_keyword_arg(self):
-        with self.assertRaises(ValueError):
-            BasicStructWithUnorderedDefaultValues(0)
+        self.assertRaises(ValueError,
+                          lambda: BasicStructWithUnorderedDefaultValues(0))
 
-        with self.assertRaises(ValueError):
-            BasicStructWithUnorderedDefaultValues(False, x=0)
+        self.assertRaises(ValueError,
+                          lambda: BasicStructWithUnorderedDefaultValues(
+                              False, x=0))
 
     def test_ordered_default_values(self):
         bs = BasicStructWithOrderedDefaultValues()
